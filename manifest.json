@@ -1,7 +1,6 @@
 {
   "name": "Button",
-  "version": "3.1.0",
-  "renderMode": "native",
+  "version": "3.1.1",
   "entry": "index.js",
   "description": "A single button widget. Configure it from the sidebar to launch any app, file, URL, or folder.",
   "author": "MyWallpaper Community",
@@ -11,16 +10,14 @@
     "productivity"
   ],
   "license": "MIT",
-  "repository": "https://github.com/rayandu924/button",
-  "capabilities": {
-    "hotReload": true
-  },
+  "repository": "https://github.com/MyWallpapers/button",
   "permissions": {
-    "system": {
-      "openPath": true
-    },
-    "fileAccess": {
-      "reason": "To launch local applications and display uploaded icon images"
+    "openPath": true,
+    "fileAccess": true,
+    "network": {
+      "domains": [
+        "*"
+      ]
     }
   },
   "defaultLayout": {
@@ -45,10 +42,22 @@
       "label": "Action type",
       "default": "url",
       "options": [
-        { "label": "URL", "value": "url" },
-        { "label": "File", "value": "file" },
-        { "label": "Folder", "value": "folder" },
-        { "label": "Protocol", "value": "protocol" }
+        {
+          "label": "URL",
+          "value": "url"
+        },
+        {
+          "label": "File",
+          "value": "file"
+        },
+        {
+          "label": "Folder",
+          "value": "folder"
+        },
+        {
+          "label": "Protocol",
+          "value": "protocol"
+        }
       ]
     },
     "execUrl": {
@@ -56,28 +65,40 @@
       "label": "URL",
       "default": "",
       "placeholder": "https://google.com",
-      "showIf": { "setting": "actionType", "equals": "url" }
+      "showIf": {
+        "setting": "actionType",
+        "equals": "url"
+      }
     },
     "execFile": {
       "type": "string",
       "label": "File path",
       "default": "",
       "placeholder": "/path/to/app.exe",
-      "showIf": { "setting": "actionType", "equals": "file" }
+      "showIf": {
+        "setting": "actionType",
+        "equals": "file"
+      }
     },
     "execFolder": {
       "type": "string",
       "label": "Folder path",
       "default": "",
       "placeholder": "/home/user/Documents",
-      "showIf": { "setting": "actionType", "equals": "folder" }
+      "showIf": {
+        "setting": "actionType",
+        "equals": "folder"
+      }
     },
     "execProtocol": {
       "type": "string",
       "label": "Protocol URI",
       "default": "",
       "placeholder": "spotify:// or steam://run/730",
-      "showIf": { "setting": "actionType", "equals": "protocol" }
+      "showIf": {
+        "setting": "actionType",
+        "equals": "protocol"
+      }
     },
     "iconSection": {
       "type": "section",
@@ -88,27 +109,45 @@
       "label": "Icon source",
       "default": "emoji",
       "options": [
-        { "label": "Emoji", "value": "emoji" },
-        { "label": "Image URL", "value": "url" },
-        { "label": "Upload Image", "value": "upload" }
+        {
+          "label": "Emoji",
+          "value": "emoji"
+        },
+        {
+          "label": "Image URL",
+          "value": "url"
+        },
+        {
+          "label": "Upload Image",
+          "value": "upload"
+        }
       ]
     },
     "iconEmoji": {
       "type": "string",
       "label": "Emoji",
-      "default": "\ud83d\ude80",
-      "showIf": { "setting": "iconSourceType", "equals": "emoji" }
+      "default": "🚀",
+      "showIf": {
+        "setting": "iconSourceType",
+        "equals": "emoji"
+      }
     },
     "iconUrl": {
       "type": "string",
       "label": "Image URL",
       "default": "",
-      "showIf": { "setting": "iconSourceType", "equals": "url" }
+      "showIf": {
+        "setting": "iconSourceType",
+        "equals": "url"
+      }
     },
     "iconImage": {
       "type": "image",
       "label": "Upload Icon",
-      "showIf": { "setting": "iconSourceType", "equals": "upload" }
+      "showIf": {
+        "setting": "iconSourceType",
+        "equals": "upload"
+      }
     },
     "borderRadiusUrl": {
       "type": "range",
@@ -117,7 +156,10 @@
       "max": 24,
       "step": 1,
       "default": 8,
-      "showIf": { "setting": "iconSourceType", "equals": "url" }
+      "showIf": {
+        "setting": "iconSourceType",
+        "equals": "url"
+      }
     },
     "borderRadiusUpload": {
       "type": "range",
@@ -126,7 +168,10 @@
       "max": 24,
       "step": 1,
       "default": 8,
-      "showIf": { "setting": "iconSourceType", "equals": "upload" }
+      "showIf": {
+        "setting": "iconSourceType",
+        "equals": "upload"
+      }
     },
     "appearanceSection": {
       "type": "section",
@@ -161,7 +206,10 @@
       "type": "color",
       "label": "Glow color",
       "default": "#ffffff",
-      "showIf": { "setting": "enableGlow", "equals": true }
+      "showIf": {
+        "setting": "enableGlow",
+        "equals": true
+      }
     },
     "glowIntensity": {
       "type": "range",
@@ -170,7 +218,10 @@
       "max": 30,
       "step": 1,
       "default": 10,
-      "showIf": { "setting": "enableGlow", "equals": true }
+      "showIf": {
+        "setting": "enableGlow",
+        "equals": true
+      }
     },
     "gifPlayOnHover": {
       "type": "boolean",

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSettings, useFiles, useSystemActions } from '@mywallpaper/sdk-react'
 
 interface ButtonSettings {
@@ -38,7 +38,6 @@ export default function Button() {
   const [clicked, setClicked] = useState(false)
   const [fileBlobUrl, setFileBlobUrl] = useState<string | null>(null)
   const [staticFrame, setStaticFrame] = useState<string | null>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const label = settings.label ?? 'My Button'
   const actionType = settings.actionType ?? 'url'
@@ -67,11 +66,22 @@ export default function Button() {
       ? (settings.borderRadiusUpload ?? 8)
       : 0
 
-  // Resolve uploaded image
+  // Resolve uploaded image (revoke old blob URL to prevent memory leak)
   useEffect(() => {
     if (iconSourceType === 'upload' && isFileReference(settings.iconImage)) {
       requestFile('iconImage').then((url) => {
-        if (url) setFileBlobUrl(url)
+        if (url) {
+          setFileBlobUrl(prev => {
+            if (prev) URL.revokeObjectURL(prev)
+            return url
+          })
+        }
+      })
+    }
+    return () => {
+      setFileBlobUrl(prev => {
+        if (prev) URL.revokeObjectURL(prev)
+        return null
       })
     }
   }, [iconSourceType, settings.iconImage, requestFile, isFileReference])
@@ -162,9 +172,6 @@ export default function Button() {
 
   return (
     <>
-      <style>{`* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body, #root { width: 100%; height: 100%; overflow: hidden; background: transparent; }`}</style>
-
       <div
         style={{
           width: '100%',
@@ -172,6 +179,11 @@ html, body, #root { width: 100%; height: 100%; overflow: hidden; background: tra
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          margin: 0,
+          padding: 0,
+          boxSizing: 'border-box',
+          overflow: 'hidden',
+          background: 'transparent',
         }}
       >
         <div
@@ -211,7 +223,6 @@ html, body, #root { width: 100%; height: 100%; overflow: hidden; background: tra
           )}
         </div>
       </div>
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
     </>
   )
 }
